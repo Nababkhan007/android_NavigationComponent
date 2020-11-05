@@ -42,14 +42,18 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce!!) {
-            super.onBackPressed()
-            navController.navigate(R.id.homeFragment)
-            return
+        if (bottomNavigationView.selectedItemId == R.id.homeFragment) {
+            if (doubleBackToExitPressedOnce!!) {
+                super.onBackPressed()
+                return
+            } else {
+                this.doubleBackToExitPressedOnce = true
+                Toast.makeText(this, getString(R.string.exit_app_text), Toast.LENGTH_SHORT).show()
+                Handler().postDelayed({ doubleBackToExitPressedOnce = false }, delayTime)
+            }
+
+        } else {
+            navController.navigateUp()
         }
-        this.doubleBackToExitPressedOnce = true
-        navController.navigateUp()
-        Toast.makeText(this, getString(R.string.exit_app_text), Toast.LENGTH_SHORT).show()
-        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, delayTime)
     }
 }
